@@ -144,7 +144,7 @@ export default function Funds() {
                 key={preset}
                 onClick={() => setAmount(preset.toString())}
                 className={`flex-1 py-2 rounded-lg text-sm font-medium transition ${
-                  amount == preset
+                  amount === preset
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
                 }`}
