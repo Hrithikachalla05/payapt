@@ -14,15 +14,11 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (form.password !== form.confirm)
-      return toast.error('Passwords do not match');
+    if (form.password !== form.confirm) return toast.error('Passwords do not match');
+    if (form.password.length < 6) return toast.error('Password must be at least 6 characters');
     setLoading(true);
     try {
-      const { data } = await API.post('/auth/register', {
-        name: form.name,
-        email: form.email,
-        password: form.password,
-      });
+      const { data } = await API.post('/auth/register', { name: form.name, email: form.email, password: form.password });
       login(data.token, data.user);
       toast.success('Account created! Welcome to PayApt 🎉');
       navigate('/dashboard');
@@ -34,58 +30,78 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white">Pay<span className="text-blue-500">Apt</span></h1>
-          <p className="text-gray-400 mt-2">Create your trading account</p>
+    <div className="min-h-screen bg-gray-950 flex">
+      {/* Left Panel */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-900 via-blue-800 to-gray-900 flex-col justify-between p-12">
+        <div>
+          <h1 className="text-4xl font-bold text-white">Pay<span className="text-blue-300">Apt</span></h1>
+          <p className="text-blue-200 mt-2 text-sm">India's Smart Trading Platform</p>
         </div>
-
-        <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800">
-          <h2 className="text-xl font-semibold text-white mb-6">Open an account</h2>
-
-          <div className="bg-blue-950 border border-blue-800 rounded-lg px-4 py-3 mb-6 flex items-center gap-3">
-            <span className="text-blue-400 text-xl">💰</span>
-            <div>
-              <p className="text-blue-300 text-sm font-medium">Start with ₹1,00,000 virtual funds</p>
-              <p className="text-blue-500 text-xs">Practice trading with no real money risk</p>
-            </div>
+        <div className="bg-blue-800 bg-opacity-40 rounded-2xl p-8 border border-blue-700">
+          <p className="text-blue-200 text-sm uppercase tracking-wider mb-4">New Account Bonus</p>
+          <p className="text-5xl font-bold text-white mb-2">₹1,00,000</p>
+          <p className="text-blue-300">Virtual funds credited instantly to your account to start practice trading with zero risk.</p>
+          <div className="mt-6 grid grid-cols-2 gap-4">
+            {[
+              { label: 'Stocks Available', value: '5000+' },
+              { label: 'Exchanges', value: 'BSE & NSE' },
+              { label: 'Order Types', value: 'Market, Limit, SL' },
+              { label: 'Payment Methods', value: 'UPI, Cards' },
+            ].map((s) => (
+              <div key={s.label} className="bg-blue-900 bg-opacity-50 rounded-xl p-3">
+                <p className="text-white font-bold">{s.value}</p>
+                <p className="text-blue-400 text-xs">{s.label}</p>
+              </div>
+            ))}
           </div>
+        </div>
+        <p className="text-blue-400 text-xs">© 2024 PayApt. All rights reserved.</p>
+      </div>
+
+      {/* Right Panel */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-12">
+        <div className="w-full max-w-md">
+          <div className="lg:hidden text-center mb-8">
+            <h1 className="text-3xl font-bold text-white">Pay<span className="text-blue-500">Apt</span></h1>
+          </div>
+
+          <h2 className="text-2xl font-bold text-white mb-1">Create your account</h2>
+          <p className="text-gray-400 text-sm mb-8">Start trading with ₹1,00,000 virtual funds</p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {[
               { label: 'Full Name', name: 'name', type: 'text', placeholder: 'Rahul Sharma' },
-              { label: 'Email', name: 'email', type: 'email', placeholder: 'rahul@example.com' },
-              { label: 'Password', name: 'password', type: 'password', placeholder: '••••••••' },
-              { label: 'Confirm Password', name: 'confirm', type: 'password', placeholder: '••••••••' },
+              { label: 'Email Address', name: 'email', type: 'email', placeholder: 'rahul@example.com' },
+              { label: 'Password', name: 'password', type: 'password', placeholder: 'Min. 6 characters' },
+              { label: 'Confirm Password', name: 'confirm', type: 'password', placeholder: 'Re-enter password' },
             ].map((field) => (
               <div key={field.name}>
-                <label className="text-gray-400 text-sm mb-1 block">{field.label}</label>
+                <label className="text-gray-400 text-xs uppercase tracking-wider mb-2 block">{field.label}</label>
                 <input
-                  name={field.name}
-                  type={field.type}
-                  value={form[field.name]}
-                  onChange={handleChange}
-                  required
-                  placeholder={field.placeholder}
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 transition"
+                  name={field.name} type={field.type} value={form[field.name]}
+                  onChange={handleChange} required placeholder={field.placeholder}
+                  className="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
                 />
               </div>
             ))}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold py-3 rounded-lg transition"
-            >
-              {loading ? 'Creating account...' : 'Create Account'}
+            <button type="submit" disabled={loading}
+              className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-semibold py-3.5 rounded-xl transition flex items-center justify-center gap-2 mt-2">
+              {loading ? <><span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span> Creating account...</> : 'Create Account →'}
             </button>
           </form>
 
-          <p className="text-center text-gray-500 text-sm mt-6">
-            Already have an account?{' '}
-            <Link to="/login" className="text-blue-400 hover:underline">Sign in</Link>
-          </p>
+          <div className="mt-6 p-4 bg-blue-950 border border-blue-900 rounded-xl flex items-start gap-3">
+            <span className="text-lg">🔒</span>
+            <p className="text-blue-300 text-xs">Your data is protected with JWT authentication and optional 2-factor verification. We never store plain text passwords.</p>
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-gray-800 text-center">
+            <p className="text-gray-500 text-sm">
+              Already have an account?{' '}
+              <Link to="/login" className="text-blue-400 hover:text-blue-300 font-medium">Sign in →</Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
