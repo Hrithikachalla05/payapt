@@ -12,6 +12,14 @@ export default function Register() {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
+  const getPasswordStrength = (password) => {
+    if (!password) return null;
+    if (password.length < 6) return { label: 'Weak', color: 'bg-red-500', width: 'w-1/3', text: 'text-red-400' };
+    if (password.length < 10 || !/[A-Z]/.test(password) || !/[0-9]/.test(password))
+      return { label: 'Medium', color: 'bg-yellow-500', width: 'w-2/3', text: 'text-yellow-400' };
+    return { label: 'Strong', color: 'bg-green-500', width: 'w-full', text: 'text-green-400' };
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.password !== form.confirm) return toast.error('Passwords do not match');
@@ -72,7 +80,6 @@ export default function Register() {
             {[
               { label: 'Full Name', name: 'name', type: 'text', placeholder: 'Rahul Sharma' },
               { label: 'Email Address', name: 'email', type: 'email', placeholder: 'rahul@example.com' },
-              { label: 'Password', name: 'password', type: 'password', placeholder: 'Min. 6 characters' },
               { label: 'Confirm Password', name: 'confirm', type: 'password', placeholder: 'Re-enter password' },
             ].map((field) => (
               <div key={field.name}>
@@ -84,6 +91,30 @@ export default function Register() {
                 />
               </div>
             ))}
+
+            {/* Password with strength meter */}
+            <div>
+              <label className="text-gray-400 text-xs uppercase tracking-wider mb-2 block">Password</label>
+              <input
+                name="password" type="password" value={form.password}
+                onChange={handleChange} required placeholder="Min. 6 characters"
+                className="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
+              />
+              {form.password && (
+                <div className="mt-2">
+                  <div className="flex justify-between mb-1">
+                    <span className="text-xs text-gray-500">Password strength</span>
+                    <span className={`text-xs font-medium ${getPasswordStrength(form.password)?.text}`}>
+                      {getPasswordStrength(form.password)?.label}
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-1.5">
+                    <div className={`h-1.5 rounded-full transition-all ${getPasswordStrength(form.password)?.color} ${getPasswordStrength(form.password)?.width}`}></div>
+                  </div>
+                  <p className="text-gray-500 text-xs mt-1">Use uppercase, numbers for a stronger password</p>
+                </div>
+              )}
+            </div>
 
             <button type="submit" disabled={loading}
               className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-semibold py-3.5 rounded-xl transition flex items-center justify-center gap-2 mt-2">

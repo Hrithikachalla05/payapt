@@ -84,12 +84,21 @@ export default function Dashboard() {
           </div>
           <a href="/funds" className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-2 rounded-lg transition font-medium">+ Add Funds</a>
           <a href="/charts" className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-3 py-2 rounded-lg transition font-medium">📈 Charts</a>
-          <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold cursor-pointer" onClick={logout} title="Logout">
-            {user?.name?.charAt(0).toUpperCase()}
-          </div>
-        </div>
-      </nav>
-
+          <div className="relative group">
+  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold cursor-pointer">
+    {user?.name?.charAt(0).toUpperCase()}
+  </div>
+  <div className="absolute right-0 top-10 bg-gray-800 border border-gray-700 rounded-xl p-3 w-48 hidden group-hover:block z-50">
+    <p className="text-white text-sm font-medium">{user?.name}</p>
+    <p className="text-gray-400 text-xs mb-2">{user?.email}</p>
+    {user?.lastLogin && (
+      <p className="text-gray-500 text-xs mb-3">Last login: {new Date(user.lastLogin).toLocaleString()}</p>
+    )}
+    <button onClick={logout} className="w-full bg-red-600 hover:bg-red-700 text-white text-xs py-1.5 rounded-lg transition">
+      Logout
+    </button>
+  </div>
+</div>
       {/* Stats Bar */}
       <div className="bg-gray-900 border-b border-gray-800 px-6 py-3 grid grid-cols-2 md:grid-cols-4 gap-4">
         {[

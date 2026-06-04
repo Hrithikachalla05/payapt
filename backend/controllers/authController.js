@@ -68,9 +68,14 @@ const login = async (req, res) => {
       return res.json({ requires2FA: true, userId: user._id, message: 'OTP sent to your email' });
     }
 
-    res.json({
-      token: generateToken(user._id),
-      user: { id: user._id, name: user.name, email: user.email },
+user.lastLogin = new Date();
+user.lastLoginDevice = req.headers['user-agent'];
+await user.save({ validateBeforeSave: false });
+
+res.json({
+  token: generateToken(user._id),
+  user: { id: user._id, name: user.name, email: user.email, lastLogin: user.lastLogin },
+});
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
