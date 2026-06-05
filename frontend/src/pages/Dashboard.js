@@ -62,6 +62,7 @@ export default function Dashboard() {
   const totalPortfolioValue = portfolio.holdings.reduce((sum, h) => sum + h.quantity * h.avgPrice, 0);
   const filteredStocks = stocks.filter(s => s.symbol.toLowerCase().includes(search.toLowerCase()));
 useEffect(() => {
+  if (stocks.length === 0) return;
   const interval = setInterval(() => {
     setStocks(prev => prev.map(stock => {
       const change = (Math.random() - 0.48) * stock.price * 0.002;
@@ -69,9 +70,9 @@ useEffect(() => {
       const newChange = parseFloat((stock.change + change).toFixed(2));
       return { ...stock, price: newPrice, change: newChange };
     }));
-  }, 3000); // updates every 3 seconds
+  }, 3000);
   return () => clearInterval(interval);
-}, [stocks.length]);
+}, []); // empty dependency array [stocks.length]);
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
