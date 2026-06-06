@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Funds from './pages/Funds';
 import Charts from './pages/Charts';
+import ChangePassword from './pages/ChangePassword';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
 	  <Route path="/funds" element={<PrivateRoute><Funds /></PrivateRoute>} />
 	  <Route path="/charts" element={<PrivateRoute><Charts /></PrivateRoute>} />
+	  <Route path="/change-password" element={<PrivateRoute><ChangePassword /></PrivateRoute>} />
 
         </Routes>
       </BrowserRouter>

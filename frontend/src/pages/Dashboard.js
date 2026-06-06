@@ -102,18 +102,35 @@ export default function Dashboard() {
                         <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold cursor-pointer">
                             {user?.name?.charAt(0).toUpperCase()}
                         </div>
-                        <div className="absolute right-0 top-10 bg-gray-800 border border-gray-700 rounded-xl p-3 w-48 hidden group-hover:block z-50">
-                            <p className="text-white text-sm font-medium">{user?.name}</p>
-                            <p className="text-gray-400 text-xs mb-2">{user?.email}</p>
-                            {user?.lastLogin && (
-                                <p className="text-gray-500 text-xs mb-3">Last login: {new Date(user.lastLogin).toLocaleString()}</p>
-                            )}
-                            <button onClick={logout} className="w-full bg-red-600 hover:bg-red-700 text-white text-xs py-1.5 rounded-lg transition">
-                                Logout
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                        <div className="absolute right-0 top-10 bg-gray-800 border border-gray-700 rounded-xl p-3 w-56 hidden group-hover:block z-50">
+  <div className="flex items-center gap-3 mb-3 pb-3 border-b border-gray-700">
+    <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold">
+      {user?.name?.charAt(0).toUpperCase()}
+    </div>
+    <div>
+      <p className="text-white text-sm font-medium">{user?.name}</p>
+      <p className="text-gray-400 text-xs">{user?.email}</p>
+    </div>
+  </div>
+  {user?.lastLogin && (
+    <p className="text-gray-500 text-xs mb-3">Last login: {new Date(user.lastLogin).toLocaleString()}</p>
+  )}
+  <div className="space-y-1">
+    <a href="/profile" className="flex items-center gap-2 w-full text-gray-300 hover:text-white hover:bg-gray-700 text-xs py-2 px-2 rounded-lg transition">
+      👤 My Profile
+    </a>
+    <a href="/change-password" className="flex items-center gap-2 w-full text-gray-300 hover:text-white hover:bg-gray-700 text-xs py-2 px-2 rounded-lg transition">
+      🔑 Change Password
+    </a>
+    <a href="/funds" className="flex items-center gap-2 w-full text-gray-300 hover:text-white hover:bg-gray-700 text-xs py-2 px-2 rounded-lg transition">
+      💰 My Funds
+    </a>
+    <hr className="border-gray-700 my-1" />
+    <button onClick={logout} className="flex items-center gap-2 w-full text-red-400 hover:text-white hover:bg-red-600 text-xs py-2 px-2 rounded-lg transition">
+      🚪 Logout
+    </button>
+  </div>
+</div>
             </nav>
 
             <div className="bg-gray-900 border-b border-gray-800 px-6 py-3 grid grid-cols-2 md:grid-cols-4 gap-4">
