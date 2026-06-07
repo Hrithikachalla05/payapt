@@ -16,6 +16,7 @@ export default function Dashboard() {
   const [orderForm, setOrderForm] = useState({ type: 'BUY', quantity: 1, price: 0 });
   const [placing, setPlacing] = useState(false);
   const [search, setSearch] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => { fetchAll(); }, []);
 
@@ -80,7 +81,6 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-950 text-white">
 
-      {/* Navbar */}
       <nav className="bg-gray-900 border-b border-gray-800 px-6 py-3 flex justify-between items-center sticky top-0 z-40">
         <div className="flex items-center gap-8">
           <h1 className="text-xl font-bold">Pay<span className="text-blue-500">Apt</span></h1>
@@ -100,42 +100,43 @@ export default function Dashboard() {
           </div>
           <a href="/funds" className="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-2 rounded-lg transition font-medium">+ Add Funds</a>
           <a href="/charts" className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-3 py-2 rounded-lg transition font-medium">📈 Charts</a>
-          <div className="relative group">
-  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold cursor-pointer">
-    {user?.name?.charAt(0).toUpperCase()}
-  </div>
-  <div className="absolute right-0 top-8 pt-2 hidden group-hover:block z-50">
-    <div className="bg-gray-800 border border-gray-700 rounded-xl p-3 w-56">
-      <div className="flex items-center gap-3 mb-3 pb-3 border-b border-gray-700">
-        <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold">
-          {user?.name?.charAt(0).toUpperCase()}
+          <div className="relative">
+            <div onClick={() => setShowDropdown(!showDropdown)}
+              className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold cursor-pointer">
+              {user?.name?.charAt(0).toUpperCase()}
+            </div>
+            {showDropdown && (
+              <div className="absolute right-0 top-10 bg-gray-800 border border-gray-700 rounded-xl p-3 w-56 z-50">
+                <div className="flex items-center gap-3 mb-3 pb-3 border-b border-gray-700">
+                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold">
+                    {user?.name?.charAt(0).toUpperCase()}
+                  </div>
+                  <div>
+                    <p className="text-white text-sm font-medium">{user?.name}</p>
+                    <p className="text-gray-400 text-xs">{user?.email}</p>
+                  </div>
+                </div>
+                {user?.lastLogin && (
+                  <p className="text-gray-500 text-xs mb-3">Last login: {new Date(user.lastLogin).toLocaleString()}</p>
+                )}
+                <div className="space-y-1">
+                  <a href="/funds" className="flex items-center gap-2 w-full text-gray-300 hover:text-white hover:bg-gray-700 text-xs py-2 px-2 rounded-lg transition">
+                    💰 My Funds
+                  </a>
+                  <a href="/change-password" className="flex items-center gap-2 w-full text-gray-300 hover:text-white hover:bg-gray-700 text-xs py-2 px-2 rounded-lg transition">
+                    🔑 Change Password
+                  </a>
+                  <hr className="border-gray-700 my-1" />
+                  <button onClick={logout} className="flex items-center gap-2 w-full text-red-400 hover:text-white hover:bg-red-600 text-xs py-2 px-2 rounded-lg transition">
+                    🚪 Logout
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-        <div>
-          <p className="text-white text-sm font-medium">{user?.name}</p>
-          <p className="text-gray-400 text-xs">{user?.email}</p>
-        </div>
-      </div>
-      {user?.lastLogin && (
-        <p className="text-gray-500 text-xs mb-3">Last login: {new Date(user.lastLogin).toLocaleString()}</p>
-      )}
-      <div className="space-y-1">
-        <a href="/funds" className="flex items-center gap-2 w-full text-gray-300 hover:text-white hover:bg-gray-700 text-xs py-2 px-2 rounded-lg transition">
-          💰 My Funds
-        </a>
-        <a href="/change-password" className="flex items-center gap-2 w-full text-gray-300 hover:text-white hover:bg-gray-700 text-xs py-2 px-2 rounded-lg transition">
-          🔑 Change Password
-        </a>
-        <hr className="border-gray-700 my-1" />
-        <button onClick={logout} className="flex items-center gap-2 w-full text-red-400 hover:text-white hover:bg-red-600 text-xs py-2 px-2 rounded-lg transition">
-          🚪 Logout
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
       </nav>
 
-      {/* Stats Bar */}
       <div className="bg-gray-900 border-b border-gray-800 px-6 py-3 grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { label: 'Available Cash', value: `₹${portfolio.availableCash?.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`, color: 'text-green-400' },
@@ -150,7 +151,6 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* Main Content */}
       <div className="p-6">
         {loading ? (
           <div className="flex flex-col items-center justify-center mt-32 gap-4">
@@ -257,7 +257,6 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Order Modal */}
       {orderModal && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 px-4">
           <div className="bg-gray-900 border border-gray-700 rounded-2xl p-6 w-full max-w-md">
