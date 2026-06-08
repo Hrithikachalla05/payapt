@@ -11,6 +11,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
@@ -103,12 +104,18 @@ export default function Login() {
                     <label className="text-gray-400 text-xs uppercase tracking-wider">Password</label>
                     <span className="text-blue-400 text-xs cursor-pointer hover:text-blue-300">Forgot password?</span>
                   </div>
+            <div className="relative">
                   <input
-                    name="password" type="password" value={form.password} onChange={handleChange} required
-                    placeholder="••••••••"
-                    className="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
-                  />
-                </div>
+                  name="password" type={showPassword ? 'text' : 'password'} value={form.password} onChange={handleChange} required
+                  placeholder="••••••••"
+                  className="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3.5 text-white placeholder-gray-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition pr-12"
+                />
+            </div>
+  <button type="button" onClick={() => setShowPassword(!showPassword)}
+    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition text-sm">
+    {showPassword ? '🙈' : '👁️'}
+  </button>
+</div>
                 <button type="submit" disabled={loading}
                   className="w-full bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white font-semibold py-3.5 rounded-xl transition flex items-center justify-center gap-2">
                   {loading ? <><span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span> Signing in...</> : 'Sign In →'}
