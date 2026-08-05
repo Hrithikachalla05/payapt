@@ -1,5 +1,4 @@
 const axios = require('axios');
-
 const mockStocks = [
   { symbol: 'RELIANCE.BSE', price: 2945.50, change: 23.40, changePercent: '0.80%' },
   { symbol: 'TCS.BSE', price: 3876.25, change: -15.30, changePercent: '-0.39%' },
@@ -9,6 +8,18 @@ const mockStocks = [
   { symbol: 'BAJFINANCE.BSE', price: 7123.30, change: 45.80, changePercent: '0.65%' },
   { symbol: 'SBIN.BSE', price: 623.45, change: -3.20, changePercent: '-0.51%' },
   { symbol: 'TATAMOTORS.BSE', price: 945.60, change: 18.70, changePercent: '2.02%' },
+  { symbol: 'ADANIENT.BSE', price: 2456.75, change: 34.50, changePercent: '1.42%' },
+  { symbol: 'HINDUNILVR.BSE', price: 2234.60, change: -12.40, changePercent: '-0.55%' },
+  { symbol: 'ICICIBANK.BSE', price: 1123.45, change: 9.80, changePercent: '0.88%' },
+  { symbol: 'KOTAKBANK.BSE', price: 1876.30, change: -6.50, changePercent: '-0.35%' },
+  { symbol: 'AXISBANK.BSE', price: 1045.20, change: 14.30, changePercent: '1.39%' },
+  { symbol: 'MARUTI.BSE', price: 10234.50, change: 123.40, changePercent: '1.22%' },
+  { symbol: 'SUNPHARMA.BSE', price: 1567.80, change: -8.60, changePercent: '-0.55%' },
+  { symbol: 'ONGC.BSE', price: 267.45, change: 3.20, changePercent: '1.21%' },
+  { symbol: 'NTPC.BSE', price: 356.70, change: -2.10, changePercent: '-0.59%' },
+  { symbol: 'POWERGRID.BSE', price: 298.45, change: 4.50, changePercent: '1.53%' },
+  { symbol: 'ULTRACEMCO.BSE', price: 9876.30, change: -45.60, changePercent: '-0.46%' },
+  { symbol: 'ASIANPAINT.BSE', price: 2987.65, change: 23.40, changePercent: '0.79%' },
 ];
 
 const getQuote = async (req, res) => {
@@ -37,7 +48,12 @@ const getQuote = async (req, res) => {
 
 const getMarketWatch = async (req, res) => {
   try {
-    const symbols = ['RELIANCE.BSE', 'TCS.BSE', 'INFY.BSE', 'HDFCBANK.BSE', 'WIPRO.BSE'];
+    const symbols = [
+  'RELIANCE.BSE', 'TCS.BSE', 'INFY.BSE', 'HDFCBANK.BSE', 'WIPRO.BSE',
+  'BAJFINANCE.BSE', 'SBIN.BSE', 'TATAMOTORS.BSE', 'ADANIENT.BSE', 'HINDUNILVR.BSE',
+  'ICICIBANK.BSE', 'KOTAKBANK.BSE', 'AXISBANK.BSE', 'MARUTI.BSE', 'SUNPHARMA.BSE',
+  'ONGC.BSE', 'NTPC.BSE', 'POWERGRID.BSE', 'ULTRACEMCO.BSE', 'ASIANPAINT.BSE'
+];
     const quotes = await Promise.all(
       symbols.map(async (symbol) => {
         try {
