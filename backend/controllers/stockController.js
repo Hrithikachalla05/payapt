@@ -48,12 +48,11 @@ const getQuote = async (req, res) => {
 
 const getMarketWatch = async (req, res) => {
   try {
-    const symbols = [
-  'RELIANCE.BSE', 'TCS.BSE', 'INFY.BSE', 'HDFCBANK.BSE', 'WIPRO.BSE',
-  'BAJFINANCE.BSE', 'SBIN.BSE', 'TATAMOTORS.BSE', 'ADANIENT.BSE', 'HINDUNILVR.BSE',
-  'ICICIBANK.BSE', 'KOTAKBANK.BSE', 'AXISBANK.BSE', 'MARUTI.BSE', 'SUNPHARMA.BSE',
-  'ONGC.BSE', 'NTPC.BSE', 'POWERGRID.BSE', 'ULTRACEMCO.BSE', 'ASIANPAINT.BSE'
-];
+    return res.json(mockStocks);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
     const quotes = await Promise.all(
       symbols.map(async (symbol) => {
         try {
